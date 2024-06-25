@@ -6,7 +6,7 @@
 /*   By: hiasano <hiasano@student.42tokyo.j>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:01:27 by hiasano           #+#    #+#             */
-/*   Updated: 2024/06/26 00:41:56 by hiasano          ###   ########.fr       */
+/*   Updated: 2024/06/26 01:32:27 by hiasano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char ft_getchar(int fd)
 			return(read_byte++, READ_ERROR);
 		bufptr = buf;
 	}
-		read_byte--;
+	read_byte--;
 	if(read_byte >= 0)
 		return(*bufptr++);
 	return(read_byte++, EOF);
