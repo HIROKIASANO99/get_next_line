@@ -6,7 +6,7 @@
 /*   By: hiasano <hiasano@student.42tokyo.j>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 20:01:27 by hiasano           #+#    #+#             */
-/*   Updated: 2024/06/25 01:00:47 by hiasano          ###   ########.fr       */
+/*   Updated: 2024/06/26 00:41:56 by hiasano          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char ft_getchar(int fd)
 	{
 		read_byte = read( fd, buf, BUFFER_SIZE);
 		if(read_byte == -1)
-			return(READ_ERROR);
+			return(read_byte++, READ_ERROR);
 		bufptr = buf;
 	}
 		read_byte--;
 	if(read_byte >= 0)
 		return(*bufptr++);
-	return(EOF);
+	return(read_byte++, EOF);
 }
 
 int ft_addchar(t_line *line , char c)
@@ -46,7 +46,7 @@ int ft_addchar(t_line *line , char c)
 			return(0);
 		dest = (unsigned char *)new_str;
 		src = (unsigned char *)line->str;
-		len = line ->len;
+		len = line->len;
 		while(len--)
 			*dest++ = *src++;
 		free(line->str);
@@ -58,26 +58,27 @@ int ft_addchar(t_line *line , char c)
 
 char *get_next_line(int fd)
 {
-	t_line	line; 
+	t_line	str; 
 	char  c;
 
 	if(fd < 0)
 		return(NULL);
-
-	line.str = NULL;
-	line.len = 0;
-	line.capacity = 0;
+	str.str = NULL;
+	str.len = 0;
+	str.capacity = 0;
 	while(1)
 	{
 		c  = ft_getchar(fd);
 		if(c == READ_ERROR)	
-			return(free(line.str), NULL);	
+			return(free(str.str), NULL);	
 		if(c == EOF)
 			break;
-		if(ft_addchar(&line, c) ==0)
-			return(free(line.str), NULL);
+		if(ft_addchar(&str, c) == 0)
+			return(free(str.str), NULL);
 		if(c == '\n')
 			break;
 	}
-	return(line.str);	
+	if (str.len > 0 && (ft_addchar(&str, '\0') == 0))
+		return (free(str.str), NULL);
+	return(str.str);	
 }
